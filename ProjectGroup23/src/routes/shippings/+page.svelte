@@ -332,67 +332,86 @@ function Barchart(data, {
 	
 </script>
 
-<h1 style="text-align: center;">History of Shipping Delays per Plant</h1>
-
-<div class="row">
-  <div class="interval-container">
-    <h2 class="subheading">Custom Time Intervals</h2>
-    <p>Selected Max Date: {formatDate(new Date(dateRange[0].getTime() + (dateSlidermax * (dateRange[1].getTime() - dateRange[0].getTime()) / 100)))}</p>
-    <input type="range" min="0" max="100" bind:value={dateSlidermax} on:input={updateChart} />
-
-    <p>Selected Min Date: {formatDate(new Date(dateRange[0].getTime() + (dateSlidermin * (dateRange[1].getTime() - dateRange[0].getTime()) / 100)))}</p>
-    <input type="range" min="0" max="{dateSlidermax}" bind:value={dateSlidermin} on:input={updateChart} />
-  </div>
-  <div class="interval-container">
-    <h2 class="subheading">Custom Delay Intervals</h2>
-    <p>Selected Delay Max: {delaySliderMax} days</p>
-    <input type="range" min="1" max="14" bind:value={delaySliderMax} on:input={updateChart} />
-
-    <p>Selected Delay Min: {delaySliderMin} days</p>
-    <input type="range" min="1" max="{delaySliderMax}" bind:value={delaySliderMin} on:input={updateChart} />
-  </div>
-</div>
-<div class="row">
-  <div class="visualization">
-    <h2>Sunburst of Shipping Delays per Plant and Season</h2>
-    <div bind:this={element}></div>
+<div class="container">
+  <div class="header">
+      <h1>History of Shipping Delays per Plant</h1>
   </div>
 
-  {#if selectedPlantKey !== null}
-    <div class="visualization">
-      <h2>Customers with most shipping delays between {delaySliderMin} and {delaySliderMax} days in {selectedCountry}</h2>
-      <div>
-        <label for="country-select">Select Country:</label>
-        <select id="country-select" bind:value={selectedCountry} on:change={handleCountryChange}>
-          {#each uniqueCountries as country}
-            <option value={country}>{country}</option>
-          {/each}
-        </select>
+  <div class="row">
+      <div class="interval-container">
+          <h2 class="subheading">Custom Time Intervals</h2>
+          <p>Selected Max Date: {formatDate(new Date(dateRange[0].getTime() + (dateSlidermax * (dateRange[1].getTime() - dateRange[0].getTime()) / 100)))}</p>
+          <input type="range" min="0" max="100" bind:value={dateSlidermax} on:input={updateChart} />
+
+          <p>Selected Min Date: {formatDate(new Date(dateRange[0].getTime() + (dateSlidermin * (dateRange[1].getTime() - dateRange[0].getTime()) / 100)))}</p>
+          <input type="range" min="0" max="{dateSlidermax}" bind:value={dateSlidermin} on:input={updateChart} />
       </div>
 
-      <div bind:this={barchartelem}></div>
-    </div>
-  {/if}
+      <div class="interval-container">
+          <h2 class="subheading">Custom Delay Intervals</h2>
+          <p>Selected Delay Max: {delaySliderMax} days</p>
+          <input type="range" min="1" max="14" bind:value={delaySliderMax} on:input={updateChart} />
+
+          <p>Selected Delay Min: {delaySliderMin} days</p>
+          <input type="range" min="1" max="{delaySliderMax}" bind:value={delaySliderMin} on:input={updateChart} />
+      </div>
+  </div>
+
+  <div class="row">
+      <div class="visualization">
+          <h2>Sunburst of Shipping Delays per Plant and Season</h2>
+          <div bind:this={element}></div>
+      </div>
+
+      {#if selectedPlantKey !== null}
+          <div class="visualization">
+              <h2>Customers with most shipping delays between {delaySliderMin} and {delaySliderMax} days in {selectedCountry}</h2>
+              <div>
+                  <label for="country-select">Select Country:</label>
+                  <select id="country-select" bind:value={selectedCountry} on:change={handleCountryChange}>
+                      {#each uniqueCountries as country}
+                          <option value={country}>{country}</option>
+                      {/each}
+                  </select>
+              </div>
+
+              <div bind:this={barchartelem}></div>
+          </div>
+      {/if}
+  </div>
 </div>
 <style>
     .subheading {
         font-size: 16px; /* Adjust the font size as needed */
     }
-	
-.interval-container {
-    flex: 1;
-    margin-right: 10px; /* Adjust the spacing between the containers */
+    .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    text-align: left;
 }
 
 .row {
     display: flex;
-    justify-content: center; /* Align items horizontally in the center */
-    align-items: flex-start; /* Align items vertically at the top */
-    gap: 20px; /* Adjust spacing between elements */
-  }
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
 
-  .visualization {
-    text-align: center; /* Align text in the center */
-  }
+.interval-container {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.visualization {
+    text-align: center;
+}
 </style>
 
